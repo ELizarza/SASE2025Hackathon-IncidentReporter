@@ -1,7 +1,7 @@
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QWidget, QMainWindow
 
-from selectionWidget import incidentSelect, incidentItem
+from selectionWidget import incidentSelect, incidentItem, incidentSummary
 from incidentReport import incidentReportDialog
 
 class MainWindow(QMainWindow):
@@ -27,6 +27,6 @@ class MainWindow(QMainWindow):
         self.incidentWindow.list_layout.addWidget(newIncident)
         newIncident.buttonSignal.connect(self.openIncidentReport)
 
-    def openIncidentReport(self, parent = None):
-        newIncidentReport = incidentReportDialog(parent)
+    def openIncidentReport(self, parent = None, pixmap=None, summary=None):
+        newIncidentReport = incidentReportDialog(parent, pixmap, summary)
         newIncidentReport.show()

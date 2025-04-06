@@ -14,8 +14,14 @@ class incidentSelect(QWidget):
         
         self.setLayout(self.list_layout)
 
+class incidentSummary():
+    def __init__(self):
+        self.summary: str = "!"
+        self.typeOfIncident: str = "!"
+        self.additionalInfo: str = "!"
+
 class incidentItem(QWidget):
-    buttonSignal = Signal(QMainWindow)
+    buttonSignal = Signal(QMainWindow, QPixmap, incidentSummary)
     def __init__(self, parent):
         super().__init__()
 
@@ -42,6 +48,8 @@ class incidentItem(QWidget):
 
         self.setLayout(self.info_layout)
 
+        self.summaryInfo = incidentSummary()
+
     def setImage(self, pixmap: QPixmap):
         w = 240
         h = 400
@@ -51,5 +59,6 @@ class incidentItem(QWidget):
     def mousePressEvent(self, event):
         # print(event)
         if event.button() is Qt.MouseButton.LeftButton:
-            self.buttonSignal.emit(self.mainWindow)
+            self.buttonSignal.emit(self.mainWindow, self.preview_pixmap, self.summaryInfo)
         return super().mousePressEvent(event)
+    
