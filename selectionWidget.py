@@ -1,5 +1,5 @@
-from PySide6.QtCore import Qt
-from PySide6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLabel
+from PySide6.QtCore import Qt, Signal
+from PySide6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLabel, QDialog, QMainWindow
 from PySide6.QtGui import QPixmap, QFont
 
 class incidentSelect(QWidget):
@@ -9,15 +9,17 @@ class incidentSelect(QWidget):
         self.list_layout = QVBoxLayout()
         self.list_layout.setAlignment(Qt.AlignmentFlag.AlignTop)
 
-        self.incident_details = incidentItem()
-        self.list_layout.addWidget(self.incident_details)
+        # self.incident_details = incidentItem()
+        # self.list_layout.addWidget(self.incident_details)
         
         self.setLayout(self.list_layout)
 
 class incidentItem(QWidget):
-    def __init__(self):
+    buttonSignal = Signal(QMainWindow)
+    def __init__(self, parent):
         super().__init__()
 
+        self.mainWindow = parent
         self.info_layout = QHBoxLayout()
 
         self.image_preview = QLabel()
@@ -39,3 +41,15 @@ class incidentItem(QWidget):
         self.setStyleSheet("background-color: grey; padding: 12px;")
 
         self.setLayout(self.info_layout)
+
+    def setImage(self, pixmap: QPixmap):
+        w = 240
+        h = 400
+        self.preview_pixmap = pixmap
+        self.image_preview.setPixmap(self.preview_pixmap.scaled(w, h, Qt.AspectRatioMode.KeepAspectRatio))
+
+    def mousePressEvent(self, event):
+        # print(event)
+        if event.button() is Qt.MouseButton.LeftButton:
+            self.buttonSignal.emit(self.mainWindow)
+        return super().mousePressEvent(event)
