@@ -16,7 +16,7 @@ class incidentSelect(QWidget):
 
 class incidentSummary():
     def __init__(self):
-        self.summary: str = "!"
+        self.summary: str = "This is a sample summary, it will include information about the report here. a lot of things could go her\nlike more words or something\nI like words"
         self.typeOfIncident: str = "!"
         self.additionalInfo: str = "!"
 
@@ -29,7 +29,7 @@ class incidentItem(QWidget):
         self.info_layout = QHBoxLayout()
 
         self.image_preview = QLabel()
-        self.image_preview.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.image_preview.setAlignment(Qt.AlignmentFlag.AlignLeft)
         w = 240
         h = 400
         self.preview_pixmap = QPixmap("overview.png")
