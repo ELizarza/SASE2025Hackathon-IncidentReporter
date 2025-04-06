@@ -19,7 +19,7 @@ class MainWindow(QMainWindow):
         # self.dummyItem = incidentItem(self)
         # self.incidentWindow.list_layout.addWidget(self.dummyItem)
         self.addIncident(self)
-        self.addIncidentArchive(self)
+        # self.addIncidentArchive(self)
 
         self.incidentReviewLabel = QLabel("Incidents Pending Review")
 
@@ -52,13 +52,21 @@ class MainWindow(QMainWindow):
         self.incidentWindow.list_layout.addWidget(newIncident)
         newIncident.buttonSignal.connect(self.openIncidentReport)
 
-    def addIncidentArchive(self, parent = None):
-        newIncident = incidentItem(parent)
-        self.archiveWindow.list_layout.addWidget(newIncident)
-        newIncident.buttonSignal.connect(self.openIncidentArchive)
+    def addIncidentArchive(self, incident: incidentItem):
+        self.incidentWindow.list_layout.removeWidget(incident)
+        self.archiveWindow.list_layout.addWidget(incident)
+        incident.buttonSignal.disconnect()
+        incident.buttonSignal.connect(self.openIncidentArchive)
+
+    def deleteIncident(self, incident: incidentItem):
+        self.incidentWindow.list_layout.removeWidget(incident)
+        incident.buttonSignal.disconnect()
+        incident.deleteLater()
 
     def openIncidentReport(self, parent = None, pixmap=None, summary=None):
         newIncidentReport = incidentReportDialog(parent, pixmap, summary)
+        newIncidentReport.saved.connect(self.addIncidentArchive)
+        newIncidentReport.deleted.connect(self.deleteIncident)
         newIncidentReport.show()
 
     def openIncidentArchive(self, parent = None, pixmap=None, summary=None):

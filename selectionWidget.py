@@ -59,6 +59,6 @@ class incidentItem(QWidget):
     def mousePressEvent(self, event):
         # print(event)
         if event.button() is Qt.MouseButton.LeftButton:
-            self.buttonSignal.emit(self.mainWindow, self.preview_pixmap, self.summaryInfo)
+            self.buttonSignal.emit(self, self.preview_pixmap, self.summaryInfo)
         return super().mousePressEvent(event)
     

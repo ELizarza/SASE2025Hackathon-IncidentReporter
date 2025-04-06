@@ -2,14 +2,15 @@ from PySide6.QtCore import Qt, Signal
 from PySide6.QtWidgets import QDialog, QHBoxLayout, QLabel, QVBoxLayout, QLineEdit, QWidget, QPushButton
 from PySide6.QtGui import QPixmap
 
-from selectionWidget import incidentSummary
+from selectionWidget import incidentSummary, incidentItem
 
 class incidentReportDialog(QDialog):
-    saved = Signal()
-    deleted = Signal()
+    saved = Signal(incidentItem)
+    deleted = Signal(incidentItem)
     def __init__(self, parent=None, pixmap: QPixmap = None, summary: incidentSummary = None):
         super().__init__(parent)
         # print("yes")
+        self.parentIncident = parent
         self.setWindowTitle("Incident Report")
         self.setModal(True)
         self.setWindowFlags(Qt.Tool | Qt.WindowStaysOnTopHint)
@@ -55,9 +56,9 @@ class incidentReportDialog(QDialog):
 
     def SaveButtonEvent(self):
         self.incidentSum.additionalInfo = self.eventDetails.text()
-        self.saved.emit() 
+        self.saved.emit(self.parentIncident) 
         self.accept() 
 
     def deleteButtonEvent(self):
-        self.deleted.emit()
+        self.deleted.emit(self.parentIncident)
         self.reject() 
