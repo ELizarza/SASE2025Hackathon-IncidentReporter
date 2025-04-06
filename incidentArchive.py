@@ -22,9 +22,10 @@ class incidentArchiveDialog(QDialog):
 
         self.info_layout = QVBoxLayout()
 
-        self.eventSummary = QLabel(summary.summary)
+        self.eventSummary = QLabel(summary.incSummary)
         self.eventType =  QLabel(summary.typeOfIncident)
         self.eventDetails = QLabel(summary.additionalInfo)
+        self.eventActionNeeded = QLabel(summary.suggestedAction)
 
         self.closeButton = QPushButton("close")
         self.closeButton.clicked.connect(self.closeButtonEvent)
@@ -32,6 +33,8 @@ class incidentArchiveDialog(QDialog):
         self.info_layout.addWidget(self.eventSummary, 30)
         self.info_layout.addWidget(self.eventType, 30)
         self.info_layout.addWidget(self.eventDetails, 30)
+        self.info_layout.addWidget(self.eventActionNeeded, 30)
+        self.info_layout.addWidget(self.closeButton)
         
         widget = QWidget()
         widget.setLayout(self.info_layout)

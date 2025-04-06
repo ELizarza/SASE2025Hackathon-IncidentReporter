@@ -25,7 +25,7 @@ class incidentReportDialog(QDialog):
 
         self.info_layout = QVBoxLayout()
 
-        self.eventSummary = QLabel(summary.summary)
+        self.eventSummary = QLabel(summary.incSummary)
         self.eventType =  QLabel(summary.typeOfIncident)
         self.eventDetails = QLineEdit()
 
@@ -55,7 +55,7 @@ class incidentReportDialog(QDialog):
         self.reject()
 
     def SaveButtonEvent(self):
-        self.incidentSum.additionalInfo = self.eventDetails.text()
+        self.incidentSum.additionalInfo += (self.eventDetails.text())
         self.saved.emit(self.parentIncident) 
         self.accept() 
 
